@@ -1,0 +1,463 @@
+print ("Choose the cryptography mode :")
+print ("1.CEASAR")
+print ("2.PLAYFAIR")
+
+i = int(input("Enter the Number :"))
+if i == 1:
+    alphabet = ' ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+    
+    key = int(input("Enter the key Value:"))
+    a = input("Enter the plaintext:")
+    
+    plaintext = a.upper()
+    ciphertext = ''
+    for c in plaintext:
+        index = alphabet.find(c)
+        index = (index + key) % len(alphabet)
+        ciphertext = ciphertext + alphabet[index]
+    print ("Ëncrypted cipher Text is: "+ ciphertext)
+    plain1= ''
+    
+    ciphertext = ciphertext.upper()
+    for b in ciphertext:
+        index1 = alphabet.find(b)
+        index1 = (index1 - key) % len(alphabet)
+        plain1 = plain1 + alphabet[index1]
+        
+    print ("Deccrypted Plain Text is: "+ plain1)
+    
+
+#-----------------------------------------------------------------------------------------------
+    
+
+elif i == 2:
+    message = input ("Enter the Message :")
+    key = input ("Enter the Key :")
+    print("Choose:")
+    print("1.Encryption")
+    print("2.Decryption")
+    x=int(input ("Enter the Number:"))
+
+    if x == 1:
+        def create_matrix(key):
+            key = key.upper()
+            matrix = [[0 for i in range (5)] for j in range(5)]
+            letters_added = []
+            row = 0
+            col = 0
+            
+            for letter in key:
+                if letter not in letters_added:
+                    matrix[row][col] = letter
+                    letters_added.append(letter)
+                else:
+                    continue
+                if (col==4):
+                    col = 0
+                    row += 1
+                else:
+                    col += 1
+            
+            # A=65 ... Z=90
+            for letter in range(65,91):
+                if letter==74:
+                        continue
+                if chr(letter) not in letters_added: 
+                    letters_added.append(chr(letter))
+                    
+            
+            index = 0
+            for i in range(5):
+                for j in range(5):
+                    matrix[i][j] = letters_added[index]
+                    index+=1
+            return matrix
+
+
+        def separate_same_letters(message):
+            index = 0
+            while (index<len(message)):
+                l1 = message[index]
+                if len(message)%2 != 0:
+                    message = message + 'X'
+                    continue
+                l2 = message[index+1]
+                if l1==l2:
+                    message = message[:index+1] + "X" + message[index+1:]
+                index +=2   
+            return message
+
+
+        def indexOf(letter,matrix):
+            for i in range (5):
+                try:
+                    index = matrix[i].index(letter)
+                    return (i,index)
+                except:
+                    continue
+
+        def playfair(key, message):
+            
+            matrix = create_matrix(key)
+            message = message.upper()
+            message = message.replace(' ','')    
+            message = separate_same_letters(message)
+            
+            cipher_text=''
+            
+            for (l1, l2) in zip(message[0::2], message[1::2]):
+                row1,col1 = indexOf(l1,matrix)
+                row2,col2 = indexOf(l2,matrix)
+                
+                if row1==row2: 
+                    cipher_text += matrix[row1][(col1+1)%5] + matrix[row2][(col2+1)%5]
+                elif col1==col2:
+                    cipher_text += matrix[(row1+1)%5][col1] + matrix[(row2+1)%5][col2]
+                else: 
+                    cipher_text += matrix[row1][col2] + matrix[row2][col1]
+            
+            return cipher_text
+
+        print ('Encripting....')
+        N = playfair(key, message)
+        print(N)
+
+
+               
+#------------------------------------------------------------------------------------
+    elif x == 2:
+            def create_matrix(key):
+                key = key.upper()
+                matrix = [[0 for i in range (5)] for j in range(5)]
+                letters_added = []
+                row = 0
+                col = 0
+                
+                for letter in key:
+                    if letter not in letters_added:
+                        matrix[row][col] = letter
+                        letters_added.append(letter)
+                    else:
+                        continue
+                    if (col==4):
+                        col = 0
+                        row += 1
+                    else:
+                        col += 1
+
+                for letter in range(65,91):
+                    if letter==74: 
+                            continue
+                    if chr(letter) not in letters_added: 
+                        letters_added.append(chr(letter))
+                        
+                
+                index = 0
+                for i in range(5):
+                    for j in range(5):
+                        matrix[i][j] = letters_added[index]
+                        index+=1
+                return matrix
+
+
+            def separate_same_letters(message):
+                index = 0
+                while (index<len(message)):
+                    l1 = message[index]
+                    if len(message)%2 != 0:
+                        message = message + 'X'
+                        continue
+                    l2 = message[index+1]
+                    if l1==l2:
+                        message = message[:index+1] + "X" + message[index+1:]
+                    index +=2   
+                return message
+
+
+            def indexOf(letter,matrix):
+                for i in range (5):
+                    try:
+                        index = matrix[i].index(letter)
+                        return (i,index)
+                    except:
+                        continue
+
+            def playfair(key, message):
+                
+                matrix = create_matrix(key)
+                message = message.upper()
+                message = message.replace(' ','')    
+                message = separate_same_letters(message)
+                
+                cipher_text=''
+                
+                for (l1, l2) in zip(message[0::2], message[1::2]):
+                    row1,col1 = indexOf(l1,matrix)
+                    row2,col2 = indexOf(l2,matrix)
+                    
+                    if row1==row2: 
+                        cipher_text += matrix[row1][(col1+1)%5] + matrix[row2][(col2+1)%5]
+                    elif col1==col2:
+                        cipher_text += matrix[(row1+1)%5][col1] + matrix[(row2+1)%5][col2]
+                    else: 
+                        cipher_text += matrix[row1][col2] + matrix[row2][col1]
+                
+                return cipher_text
+            N = playfair(key, message)
+           
+
+
+
+
+
+        
+            def create_matrix(key):
+                key = key.upper()
+                matrix = [[0 for i in range (5)] for j in range(5)]
+                letters_added = []
+                row = 0
+                col = 0
+             
+                for letter in key:
+                    if letter not in letters_added:
+                        matrix[row][col] = letter
+                        letters_added.append(letter)
+                    else:
+                        continue
+                    if (col==4):
+                        col = 0
+                        row += 1
+                    else:
+                        col += 1
+                
+                for letter in range(65,91):
+                    if letter==74: 
+                            continue
+                    if chr(letter) not in letters_added: 
+                        letters_added.append(chr(letter))
+                        
+               
+                index = 0
+                for i in range(5):
+                    for j in range(5):
+                        matrix[i][j] = letters_added[index] 
+                        index+=1
+                return matrix
+
+
+
+           
+            def separate_same_letters(message):
+                index = 0
+                while (index<len(message)):
+                    e1 = message[index]
+                    if len(message)%2 != 0:
+                        message = message + 'X'
+                        continue
+                    e2 = message[index+1]
+                    if e1==e2:
+                        message = message[:index+1] + "X" + message[index+1:]
+                    index +=2   
+                return message
+
+
+        
+            def indexOf(letter,matrix):
+                for i in range (5):
+                    try:
+                        index = matrix[i].index(letter)
+                        return (i,index)
+                    except:
+                        continue
+
+
+            
+            def playfair(key, message):
+
+                matrix = create_matrix(key)
+                message = message.upper()    
+                message = separate_same_letters(message)
+                
+                plain_text=''
+                
+                for (l1, l2) in zip(message[0::2], message[1::2]):
+                    row1,col1 = indexOf(l1,matrix)
+                    row2,col2 = indexOf(l2,matrix)
+                    
+                    if row1==row2: 
+                        plain_text += matrix[row1][(col1-1)%5] + matrix[row2][(col2-1)%5]
+                    elif col1==col2:
+                        plain_text += matrix[(row1-1)%5][col1] + matrix[(row2-1)%5][col2]
+                    else: 
+                        plain_text += matrix[row1][col2] + matrix[row2][col1]
+                
+                return plain_text
+
+
+            print ('Decryption....')
+            D = playfair(key,N)
+            print(D)
+
+
+    else:
+            print(" ")
+
+else:
+        print("Enter Correct Letter")
+
+
+                        
+                        
+#-----------------------------------------------------------------------
+
+
+import rsa
+
+def generate_keys():
+    (pubKey, privKey) = rsa.newkeys(1024)
+    with open('keys/pubkey.pem', 'wb') as f:
+        f.write(pubKey.save_pkcs1('PEM'))
+
+    with open('keys/privkey.pem', 'wb') as f:
+        f.write(privKey.save_pkcs1('PEM'))
+
+def load_keys():
+    with open('keys/pubkey.pem', 'rb') as f:
+        pubKey = rsa.PublicKey.load_pkcs1(f.read())
+
+    with open('keys/privkey.pem', 'rb') as f:
+        privKey = rsa.PrivateKey.load_pkcs1(f.read())
+
+    return pubKey, privKey
+
+def encrypt(msg, key):
+    return rsa.encrypt(msg.encode('ascii'), key)
+
+def decrypt(ciphertext, key):
+    try:
+        return rsa.decrypt(ciphertext, key).decode('ascii')
+    except:
+        return False
+
+def sign_sha1(msg, key):
+    return rsa.sign(msg.encode('ascii'), key, 'SHA-1')
+
+def verify_sha1(msg, signature, key):
+    try:
+        return rsa.verify(msg.encode('ascii'), signature, key) == 'SHA-1'
+    except:
+        return False
+
+generate_keys()
+pubKey, privKey = load_keys()
+
+message = input('Enter a message:')
+ciphertext = encrypt(message, pubKey)
+
+signature = sign_sha1(message, privKey)
+
+plaintext = decrypt(ciphertext, privKey)
+
+print(f'Cipher text: {ciphertext}')
+print(f'Signature: {signature}')
+
+if plaintext:
+    print(f'Plain text: {plaintext}')
+else:
+    print('Could not decrypt the message.')
+
+if verify_sha1(plaintext, signature, pubKey):
+    print('Signature verified!')
+else:
+    print('Could not verify the message signature.')
+
+
+
+
+
+
+#Rail Fence Cipher-----------------------------------------------------------
+
+plaintext = 'Cryptography'
+key = 4
+ciphertext = ""
+plain = ''
+
+matrix = [['' for i in range(len(plaintext))] for y in range(key)]
+i = 1
+row = 0
+col = 0
+
+for c in plaintext:
+    if row+i<0 or row+i>= len(matrix):
+        i =i*-1 
+
+    matrix[row][col] = c
+    row += i
+    col += 1
+
+for a in matrix:
+    ciphertext +=''.join(a)
+print("Encrypted Ciphertext is:"+ ciphertext)
+
+
+#Decryption Part-----------------------------------    
+    
+tran_matrix= [['' for y in range(len(matrix))] for x in range(len(matrix[0]))]
+
+for i in range(len(matrix)):
+    for j in range(len(matrix[0])):
+        tran_matrix[j][i] = matrix[i][j]
+
+
+for b in tran_matrix:
+    plain += ''.join(b)
+
+print("Decryption Plain Text is:"+ plain)
+
+
+
+
+
+
+
+#Row Transposition Cipher----------------------------------
+
+
+plaintext = 'Cryptography'
+key = 4
+ciphertext = ""
+plain = ''
+
+matrix = [['' for i in range(len(plaintext))] for y in range(key)]
+i = 1
+row = 0
+col = 0
+
+for c in plaintext:
+    if row+i<0 or row+i>= len(matrix):
+        i =i*-1 
+
+    matrix[row][col] = c
+    row += i
+    col += 1
+
+for a in matrix:
+    ciphertext +=''.join(a)
+print("Encrypted Ciphertext is:"+ ciphertext)
+
+
+#Decryption Part-----------------------------------    
+    
+tran_matrix= [['' for y in range(len(matrix))] for x in range(len(matrix[0]))]
+
+for i in range(len(matrix)):
+    for j in range(len(matrix[0])):
+        tran_matrix[j][i] = matrix[i][j]
+
+
+for b in tran_matrix:
+    plain += ''.join(b)
+
+print("Decryption Plain Text is:"+ plain)
+
