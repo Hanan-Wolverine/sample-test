@@ -201,3 +201,14 @@ set xlabel "router"
 plot for [COL=2:3] "details.data" using COL:xtic(1) title "signal range"
 plot for [COL=2:3] "details.data" using COL:xtic(1) title "speed mbps"
 
+------------------------------------------------------------------------------------------------------------------------
+	
+set terminal pdf
+set output "output.pdf"
+set title "router data"
+set style data histogram
+set style fill solid
+set style histogram cluster
+plot "details.data" using 1:2 with lines title "speed (mb/s)", "details.data" using 1:3 with lines title "signal range"
+plot for [COL=2:3] "details.data" using COL:xtic(1) title "router number"
+
