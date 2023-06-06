@@ -179,6 +179,11 @@ main (int argc, char *argv[])
   Simulator::Destroy ();
   return 0;
 }
+-------------------------------------------------------  ns33 commands----------------------
+after that save this file inside the scrath folder and come out of folder into the ns3.33 and open terminal and type   ./waf --run scratch/q1
+go to net anim folder inside the ns33 and then netanim using   ./NetAnim then open the .xml file and save as table from 3rd tab packets and export table
+then go to tracemetric folder and open terminal  java -jar "tracemetrics.jar"  then open the trace files 
+then wireshark and  open the pcap files and go to stats and select i/o grapgh
 
 
 -----------------------------------------------ploting commands----------------------------------------------------------------
